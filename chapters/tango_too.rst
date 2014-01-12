@@ -54,8 +54,9 @@ In ``rango/views.py``, create a function called ``get_category_list()`` that ret
 	def get_category_list():
 	    cat_list = Category.objects.all()
 	    
+	    # You can use the encode method written in module 6 instead
 	    for cat in cat_list:
-	        cat.url = encode_url(cat.name)
+	        cat.url = cat.name.replace(' ', '_')
 	    
 	    return cat_list
 
