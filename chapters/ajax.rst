@@ -110,20 +110,20 @@ Create a view called, ``like_category`` in ``rango/views.py`` which will examine
 
 	@login_required
 	def like_category(request):
-	    context = RequestContext(request)
-	    cat_id = None
-	    if request.method == 'GET':
-	        cat_id = request.GET['category_id']
+		context = RequestContext(request)
+		cat_id = None
+		if request.method == 'GET':
+			cat_id = request.GET['category_id']
 
-	    likes = 0
-	    if cat_id:
-	        category = Category.objects.get(id=int(cat_id))
-	        if category:
-				likes = category.likes + 1
-	            category.likes =  likes 
-	            category.save()
+		likes = 0
+		if cat_id:
+		category = Category.objects.get(id=int(cat_id))
+		if category:
+			likes = category.likes + 1
+			category.likes =  likes 
+			category.save()
 		
-	    return HttpResponse(likes)
+		return HttpResponse(likes)
 
 On examining the code, you will see that we are only allowing authenticated users to denote that they like a category. The view assumes that a variable ``category_id`` has been passed through via a GET or POST so that the we can identify the category to update. In this view, we could also track and record that a particular user has "liked" this category if we wanted - but he we are keeping it simple to focus on the AJAX mechanics.
 
