@@ -81,7 +81,7 @@ To display the number of likes and the "Likes" button modify the ``category`` vi
 .. code-block:: python
 	
 	def category(request, category_name_url):
-	    context = RequestContext(request)
+		context = RequestContext(request)
 		cat_list = get_category_list()
 		category_name = decode_url(category_name_url)
 		
@@ -92,13 +92,13 @@ To display the number of likes and the "Likes" button modify the ``category`` vi
 			
 			# Add category to the context so that we can access the id and likes
 			context_dict['category'] = category
-
+			
 			pages = Page.objects.filter(category=category)
 			context_dict['pages'] = pages
 		except Category.DoesNotExist:
 			pass
-		
-		return render_to_response('rango/category.html', context_dict, context)
+	
+	return render_to_response('rango/category.html', context_dict, context)
 
 Create a Like Category View
 ...........................
@@ -140,14 +140,14 @@ Now in "rango-ajax.js" you will need to add some JQuery code to perform an AJAX 
 
 .. code-block:: javascript
 	
-		$('#likes').click(function(){
-	        var catid;
-	        catid = $(this).attr("data-catid");
-	         $.get('/rango/like_category/', {category_id: catid}, function(data){
-	                   $('#like_count').html(data);
-	                   $('#likes').hide();
-	               });
-	    });
+	$('#likes').click(function(){
+		var catid;
+		catid = $(this).attr("data-catid");
+		$.get('/rango/like_category/', {category_id: catid}, function(data){
+			$('#like_count').html(data);
+			$('#likes').hide();
+		});
+	});
 
 This piece of JQuery/Javascript will add an event handler to the element with id ``#likes``, i.e. the button. When clicked, it will extract the category id from the button element, and then make an AJAX GET request which will make a call to ``/rango/like_category/`` encoding the ``category id`` in the request. If the request is successful, then the HTML element with id like_count (i.e. the <b> ) is updated with the data returned by the request, and the HTML element with id likes (i.e. the <button>) is hidden.
 
@@ -267,7 +267,7 @@ Add the following JQuery code to the ``js/rango-ajax.js``:
 		var query;
 		query = $(this).val();
 		$.get('/rango/suggest_category/', {suggestion: query}, function(data){
-                 $('#cats').html(data);
+                	$('#cats').html(data);
 		});
 	});
 
@@ -301,15 +301,15 @@ JQuery code:
 .. code-block: javascript
 
 	$('.rango-add').click(function(){
-	    var catid = $(this).attr("data-catid");
+		var catid = $(this).attr("data-catid");
 		var url = $(this).attr("data-url");
-        	var title = $(this).attr("data-title");
-        	var me = $(this)
-	    	$.get('/rango/auto_add_page/', {category_id: catid, url: url, title: title}, function(data){
-	                   	$('#pages').html(data);
-	                   	me.hide();
-	               		});
-	    				});
+		var title = $(this).attr("data-title");
+		var me = $(this)
+		$.get('/rango/auto_add_page/', {category_id: catid, url: url, title: title}, function(data){
+			$('#pages').html(data);
+			me.hide();
+		});
+	});
 
 Note here we are assigned the event handler to all the buttons with class ``rango-add``.
 
